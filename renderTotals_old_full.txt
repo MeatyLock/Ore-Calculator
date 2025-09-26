@@ -1,6 +1,0 @@
-  function renderTotals(vol, unitName, perUnit, details=null){
-    if (!totalsList){
-      return;
-    }
-
-
