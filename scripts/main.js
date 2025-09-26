@@ -80,6 +80,23 @@ function wire(){
   const discountToggle = document.getElementById('discount-toggle');
   const discountLabel = document.getElementById('discount-label');
   const volumeInput = document.getElementById('volume-input');
+  const enforceVolumeLength = (value) => {
+    if (!value) return "";
+    const [whole = "", fractional = ""] = String(value).split(".");
+    const trimmedWhole = whole.replace(/\D/g, "").slice(0, 7);
+    const fractionalDigits = fractional.replace(/\D/g, "");
+    if (!fractionalDigits) {
+      return trimmedWhole;
+    }
+    return trimmedWhole ? `${trimmedWhole}.${fractionalDigits}` : `0.${fractionalDigits}`;
+  };
+  const enforceParticipantLength = (value) => {
+    if (!value) return "";
+    const digitsOnly = String(value).replace(/\D/g, "");
+    return digitsOnly.slice(0, 4);
+  };
+
+
   const participantsInput = document.getElementById('participants-input');
   const resultsDiv = document.getElementById('volume-results');
   const totalsList = document.getElementById('totals-list');
@@ -199,22 +216,36 @@ function wire(){
     if (!participantsInput){
       return 1;
     }
-    const rawText = participantsInput.value.trim();
-    if (!rawText){
+
+    const limited = enforceParticipantLength(participantsInput.value);
+    if (participantsInput.value !== limited){
+      participantsInput.value = limited;
+    }
+
+    if (!limited){
       return 1;
     }
-    const rawNumber = Number(rawText);
+
+    const rawNumber = Number(limited);
     if (!Number.isFinite(rawNumber) || rawNumber <= 0){
       return 1;
     }
+
     const clamped = Math.floor(rawNumber);
-    if (clamped !== rawNumber){
-      participantsInput.value = String(clamped);
+    const normalizedValue = String(clamped);
+    if (participantsInput.value !== normalizedValue){
+      participantsInput.value = normalizedValue;
     }
+
     return clamped;
   }
 
   function computeFromVolume(){
+    const rawValue = enforceVolumeLength(volumeInput.value);
+    if (rawValue !== volumeInput.value){
+      volumeInput.value = rawValue;
+    }
+
     const vol = Number(volumeInput.value) || 0;
     const participants = normaliseParticipants();
     const isTitaniumMode = !modeToggle.checked;
@@ -281,3 +312,5 @@ function wire(){
 }
 
 window.addEventListener('DOMContentLoaded', wire);
+
+
