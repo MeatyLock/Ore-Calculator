@@ -77,10 +77,13 @@ function wire(){
 
   const modeToggle = document.getElementById('mode-toggle');
   const modeLabel = document.getElementById('mode-label');
+  const discountToggle = document.getElementById('discount-toggle');
+  const discountLabel = document.getElementById('discount-label');
   const volumeInput = document.getElementById('volume-input');
   const participantsInput = document.getElementById('participants-input');
   const resultsDiv = document.getElementById('volume-results');
   const totalsList = document.getElementById('totals-list');
+  let discountActive = false;
 
   function renderTotals(vol, unitName, perUnit, details=null){
     if (!totalsList){
@@ -106,6 +109,7 @@ function wire(){
     const participants = details?.participants ?? 1;
     const perParticipantUnits = participants > 1 ? Number((totalUnitsRaw / participants).toFixed(1)) : null;
     const roundedUnits = Number(totalUnitsRaw.toFixed(1));
+    const discountApplied = Boolean(details?.discountActive);
 
     const addTotalsItem = (title, value, className) => {
       const li = document.createElement('li');
@@ -125,7 +129,8 @@ function wire(){
       totalsList.appendChild(li);
     };
 
-    const primaryValue = perParticipantUnits !== null ? `${roundedUnits.toLocaleString(undefined,{ maximumFractionDigits: 1 })} units | ${perParticipantUnits.toLocaleString(undefined,{ maximumFractionDigits: 1 })} ${unitName} each for ${formatQty(participants)} participants` : `${roundedUnits.toLocaleString(undefined,{ maximumFractionDigits: 1 })} units`;
+    const baseValue = perParticipantUnits !== null ? `${roundedUnits.toLocaleString(undefined,{ maximumFractionDigits: 1 })} units | ${perParticipantUnits.toLocaleString(undefined,{ maximumFractionDigits: 1 })} ${unitName} each for ${formatQty(participants)} participants` : `${roundedUnits.toLocaleString(undefined,{ maximumFractionDigits: 1 })} units`;
+    const primaryValue = discountApplied ? `${baseValue} (25% discount applied)` : baseValue;
     addTotalsItem(unitName, primaryValue, 'totals-item--active');
 
     if (unitName === 'Stravidium Mass'){
@@ -182,6 +187,13 @@ function wire(){
       modeLabel.classList.toggle('toggle-label--alt', !isTitaniumMode);
     }
   }
+  function updateDiscountLabelState(){
+    if (discountLabel){
+      discountLabel.textContent = discountActive ? '25% Discount Applied' : 'Apply 25% Discount';
+      discountLabel.classList.toggle('toggle-label--alt', discountActive);
+    }
+  }
+
 
   function normaliseParticipants(){
     if (!participantsInput){
@@ -218,13 +230,11 @@ function wire(){
       return;
     }
 
-    const totalUnits = vol / perUnit;
-    const perParticipant = totalUnits / (participants || 1);
-    const perParticipantRounded = Number(perParticipant.toFixed(1));
-
+    const discountMultiplier = discountActive ? 1.25 : 1;
+    const totalUnits = (vol / perUnit) * discountMultiplier;
     resultsDiv.innerHTML = "";
 
-    renderTotals(vol, unitName, perUnit, { totalUnits, participants });
+    renderTotals(vol, unitName, perUnit, { totalUnits, participants, discountActive });
   }
 
   volumeInput.addEventListener('input', computeFromVolume);
@@ -243,6 +253,27 @@ function wire(){
     modeToggle.checked = !modeToggle.checked;
     computeFromVolume();
   });
+  const handleDiscountToggle = () => {
+    discountActive = Boolean(discountToggle && discountToggle.checked);
+    updateDiscountLabelState();
+    computeFromVolume();
+  };
+
+  if (discountToggle){
+    discountToggle.addEventListener('input', handleDiscountToggle);
+    discountToggle.addEventListener('change', handleDiscountToggle);
+  }
+
+  discountLabel?.addEventListener('click', () => {
+    if (!discountToggle){
+      return;
+    }
+    discountToggle.checked = !discountToggle.checked;
+    handleDiscountToggle();
+  });
+
+  discountActive = Boolean(discountToggle && discountToggle.checked);
+  updateDiscountLabelState();
 
   modeToggle.checked = false;
   updateModeLabel(true);
@@ -250,4 +281,3 @@ function wire(){
 }
 
 window.addEventListener('DOMContentLoaded', wire);
-

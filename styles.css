@@ -33,9 +33,16 @@ body {
     linear-gradient(180deg, var(--bg-1), var(--bg-0));
   position: relative;
   overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
   padding: 60px 18px 80px;
 }
 
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
 body::after {
   content: "";
   position: fixed;
@@ -100,26 +107,61 @@ body::after {
 .toggle-row {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 20px;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 20px;
+  row-gap: 12px;
 }
 
 .toggle-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  justify-content: flex-start;
+  flex: 1 1 280px;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.toggle-wrapper:first-child {
+  flex: 1 1 220px;
+}
+
+.toggle-wrapper .switch {
+  flex: 0 0 auto;
+}
+
+.toggle-wrapper .toggle-label {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .toggle-label {
-  color: var(--amber);
-  font-size: 1.05rem;
-  letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
   height: 30px;
-  line-height: 30px;
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
+  opacity: 0.9;
+}
+
+
+}
+.toggle-label {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  opacity: 0.9;
 }
 
 .toggle-label--alt { color: var(--amber); }
@@ -172,33 +214,61 @@ body::after {
 }
 
 label {
-  display: block;
-  margin: 12px 0 6px;
-  letter-spacing: 1.2px;
+  font-size: 0.95em;
   color: var(--text);
-  font-size: 0.95rem;
+  margin-top: 12px;
+  display: block;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   opacity: 0.9;
 }
 
-.input-row {\n  position: relative;\n  display: inline-block;\n  width: fit-content;\n  margin: 10px 0 18px;\n}
+.input-row {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  margin: 10px 0 18px;
+}
 
-.input-row input {\n  width: 18ch;\n  min-width: 10ch;\n  max-width: 100%;\n  padding: 12px 14px;\n  padding-right: 1.5ch;\n  border-radius: 10px;\n  border: 1px solid rgba(0, 231, 255, 0.35);\n  background: radial-gradient(180px 60px at 20% 0%, rgba(0, 231, 255, 0.08), transparent 60%) #0d1322;\n  color: var(--text);\n  font-family: "Share Tech Mono", monospace;\n  font-size: 1.1em;\n  caret-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.06) inset, 0 0 14px rgba(0, 231, 255, 0.15) inset, 0 4px 14px rgba(0,0,0,0.4);\n  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;\n}
-.input-row input:focus {\n  outline: none;\n  border-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.12) inset, 0 0 20px rgba(0, 231, 255, 0.35);\n}
-
-
+.input-row input {
+  width: 18ch;
+  min-width: 10ch;
+  max-width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 231, 255, 0.35);
+  background: radial-gradient(180px 60px at 20% 0%, rgba(0, 231, 255, 0.08), transparent 60%) #0d1322;
+  color: var(--text);
+  font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.1em;
+  caret-color: var(--neon);
+  box-shadow:
+    0 0 0 2px rgba(0, 231, 255, 0.06) inset,
+    0 0 14px rgba(0, 231, 255, 0.15) inset,
+    0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;
+}
 .input-row input:focus {
-  border-color: rgba(0, 231, 255, 0.7);
-  box-shadow: 0 0 20px rgba(0, 231, 255, 0.35);
+  outline: none;
+  border-color: var(--neon);
+  box-shadow:
+    0 0 0 2px rgba(0, 231, 255, 0.12) inset,
+    0 0 20px rgba(0, 231, 255, 0.35);
 }
 
-.input-cursor {\n  display: inline-block;\n  width: 1ch;\n  height: 1.2em;\n  vertical-align: middle;\n  background: var(--neon);\n  margin-left: 4px;\n  border-radius: 2px;\n  box-shadow: 0 0 10px rgba(0, 231, 255, 0.65);\n  animation: cursor-blink 1.2s steps(2, start) infinite;\n}
-
-
-@keyframes cursor-blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+.input-cursor {
+  display: inline-block;
+  width: 1ch;
+  height: 1.2em;
+  vertical-align: middle;
+  background: var(--neon);
+  margin-left: 2px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 231, 255, 0.65);
+  opacity: 1;
 }
+
+body.cursor-off .input-cursor { opacity: 0; }
 
 #volume-results {
   display: grid;
@@ -216,9 +286,7 @@ label {
 }
 
 .totals-block {
-  margin-top: 28px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(0, 231, 255, 0.25);
+  margin-top: 16px;
 }
 
 .totals-block h3 {
@@ -270,10 +338,18 @@ label {
   body { padding: 48px 12px 64px; }
   .container { max-width: 360px; padding: 30px 24px; }
   .card-title { font-size: 2.1rem; }
-  .toggle-row { justify-content: center; }
-  .input-row {\n  position: relative;\n  display: inline-block;\n  width: fit-content;\n  margin: 10px 0 18px;\n}
-  .input-row input {\n  width: 18ch;\n  min-width: 10ch;\n  max-width: 100%;\n  padding: 12px 14px;\n  padding-right: 1.5ch;\n  border-radius: 10px;\n  border: 1px solid rgba(0, 231, 255, 0.35);\n  background: radial-gradient(180px 60px at 20% 0%, rgba(0, 231, 255, 0.08), transparent 60%) #0d1322;\n  color: var(--text);\n  font-family: "Share Tech Mono", monospace;\n  font-size: 1.1em;\n  caret-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.06) inset, 0 0 14px rgba(0, 231, 255, 0.15) inset, 0 4px 14px rgba(0,0,0,0.4);\n  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;\n}
-.input-row input:focus {\n  outline: none;\n  border-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.12) inset, 0 0 20px rgba(0, 231, 255, 0.35);\n}
+  .toggle-row {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
 
-}
+
+
+
+
+
+
+
+
 
