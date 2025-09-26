@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ore Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="container">
+    <section class="grid">
+      <div class="card full">
+        <h1 class="card-title">Ore <span class="glow">Calculator</span></h1>
+        <div class="toggle-row">
+          <div class="toggle-wrapper">
+            <label class="switch">
+              <input id="mode-toggle" type="checkbox">
+              <span class="slider"></span>
+            </label>
+            <span id="mode-label" class="toggle-label">Titanium Ore Mode</span>
+          </div>
+        </div>
+
+        <label for="volume-input">Total volume</label>
+        <div class="input-row">
+          <input id="volume-input" type="number" min="0" step="any" placeholder="Enter volume" />
+          <span class="input-cursor"></span>
+        </div>
+
+        <label for="participants-input">Number of participants</label>
+        <div class="input-row">
+          <input id="participants-input" type="number" min="1" step="1" placeholder="Enter participants" />
+          <span class="input-cursor"></span>
+        </div>
+
+        <div class="totals-block">
+          <h3>Totals</h3>
+          <ul id="totals-list" class="totals-list"></ul>
+        </div>
+
+        <div id="volume-results"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="scripts/constants.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

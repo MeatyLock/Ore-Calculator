@@ -1,0 +1,279 @@
+:root {
+  --notch: 14px;
+  --bg-0: #060a12;
+  --bg-1: #0c1221;
+  --panel: rgba(8, 14, 24, 0.82);
+  --panel-fill: #0a1220;
+  --panel-border: rgba(0, 231, 255, 0.6);
+  --neon: #00e7ff;
+  --magenta: #ff2fd6;
+  --amber: #e6c47a;
+  --text: #e9fbff;
+  --muted: rgba(233, 251, 255, 0.72);
+}
+
+* { box-sizing: border-box; }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] { -moz-appearance: textfield; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at 12% 10%, #0e1730 0%, transparent 60%),
+    radial-gradient(900px 600px at 88% 12%, #170b27 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  position: relative;
+  overflow-x: hidden;
+  padding: 60px 18px 80px;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg, transparent 0 2px, rgba(0, 231, 255, 0.06) 2px 4px);
+}
+
+.container {
+  max-width: 640px;
+  margin: 42px auto;
+  padding: 34px 32px;
+  background: var(--panel-fill);
+  border: 2px solid var(--panel-border);
+  box-shadow:
+    0 18px 36px rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(0, 231, 255, 0.18),
+    0 0 0 1px rgba(0, 231, 255, 0.15) inset;
+  backdrop-filter: blur(6px) saturate(120%);
+  clip-path: polygon(
+    var(--notch) 0,
+    calc(100% - var(--notch)) 0,
+    100% var(--notch),
+    100% calc(100% - var(--notch)),
+    calc(100% - var(--notch)) 100%,
+    var(--notch) 100%,
+    0 calc(100% - var(--notch)),
+    0 var(--notch)
+  );
+}
+
+.container::before,
+.container::after { content: none; }
+
+.grid { display: block; }
+
+.card {
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.card-title {
+  margin: 0 0 24px;
+  font-size: 2.4rem;
+  letter-spacing: 2.2px;
+  text-align: center;
+  color: var(--text);
+  text-transform: uppercase;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(0, 231, 255, 0.42), 0 0 36px rgba(255, 47, 214, 0.28);
+}
+
+.card-title .glow {
+  background: linear-gradient(90deg, var(--neon), var(--magenta));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-label {
+  color: var(--amber);
+  font-size: 1.05rem;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+
+.toggle-label--alt { color: var(--amber); }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #0e1524;
+  border: 2px solid var(--panel-border);
+  border-radius: 8px;
+  transition: 0.35s;
+  box-shadow: 0 0 10px rgba(0, 231, 255, 0.25) inset;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 3px;
+  background: linear-gradient(90deg, var(--neon), var(--magenta));
+  border-radius: 6px;
+  transition: 0.35s;
+}
+
+.switch input:checked + .slider {
+  background: radial-gradient(120px 40px at 30% 20%, rgba(0, 231, 255, 0.15), transparent) #08101c;
+  border-color: var(--neon);
+  box-shadow: 0 0 16px rgba(0, 231, 255, 0.35) inset, 0 0 10px rgba(0, 231, 255, 0.25);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+  background: linear-gradient(90deg, var(--magenta), var(--neon));
+}
+
+label {
+  display: block;
+  margin: 12px 0 6px;
+  letter-spacing: 1.2px;
+  color: var(--text);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.input-row {\n  position: relative;\n  display: inline-block;\n  width: fit-content;\n  margin: 10px 0 18px;\n}
+
+.input-row input {\n  width: 18ch;\n  min-width: 10ch;\n  max-width: 100%;\n  padding: 12px 14px;\n  padding-right: 1.5ch;\n  border-radius: 10px;\n  border: 1px solid rgba(0, 231, 255, 0.35);\n  background: radial-gradient(180px 60px at 20% 0%, rgba(0, 231, 255, 0.08), transparent 60%) #0d1322;\n  color: var(--text);\n  font-family: "Share Tech Mono", monospace;\n  font-size: 1.1em;\n  caret-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.06) inset, 0 0 14px rgba(0, 231, 255, 0.15) inset, 0 4px 14px rgba(0,0,0,0.4);\n  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;\n}
+.input-row input:focus {\n  outline: none;\n  border-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.12) inset, 0 0 20px rgba(0, 231, 255, 0.35);\n}
+
+
+.input-row input:focus {
+  border-color: rgba(0, 231, 255, 0.7);
+  box-shadow: 0 0 20px rgba(0, 231, 255, 0.35);
+}
+
+.input-cursor {\n  display: inline-block;\n  width: 1ch;\n  height: 1.2em;\n  vertical-align: middle;\n  background: var(--neon);\n  margin-left: 4px;\n  border-radius: 2px;\n  box-shadow: 0 0 10px rgba(0, 231, 255, 0.65);\n  animation: cursor-blink 1.2s steps(2, start) infinite;\n}
+
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+#volume-results {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+#volume-results div {
+  padding: 14px 16px;
+  background: rgba(14, 23, 40, 0.92);
+  border-left: 3px solid var(--amber);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  letter-spacing: 0.8px;
+}
+
+.totals-block {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 231, 255, 0.25);
+}
+
+.totals-block h3 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  color: var(--amber);
+  text-align: left;
+}
+
+.totals-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.totals-list li {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(14, 23, 40, 0.88);
+  border: 1px solid rgba(0, 231, 255, 0.18);
+  display: grid;
+  gap: 4px;
+}
+
+.totals-item-name {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.totals-item-value {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.totals-item--active {
+  border-color: rgba(0, 231, 255, 0.45);
+  box-shadow: 0 0 20px rgba(0, 231, 255, 0.2);
+}
+
+.totals-item--secondary { border-color: rgba(255, 47, 214, 0.3); }
+
+@media (max-width: 480px) {
+  body { padding: 48px 12px 64px; }
+  .container { max-width: 360px; padding: 30px 24px; }
+  .card-title { font-size: 2.1rem; }
+  .toggle-row { justify-content: center; }
+  .input-row {\n  position: relative;\n  display: inline-block;\n  width: fit-content;\n  margin: 10px 0 18px;\n}
+  .input-row input {\n  width: 18ch;\n  min-width: 10ch;\n  max-width: 100%;\n  padding: 12px 14px;\n  padding-right: 1.5ch;\n  border-radius: 10px;\n  border: 1px solid rgba(0, 231, 255, 0.35);\n  background: radial-gradient(180px 60px at 20% 0%, rgba(0, 231, 255, 0.08), transparent 60%) #0d1322;\n  color: var(--text);\n  font-family: "Share Tech Mono", monospace;\n  font-size: 1.1em;\n  caret-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.06) inset, 0 0 14px rgba(0, 231, 255, 0.15) inset, 0 4px 14px rgba(0,0,0,0.4);\n  transition: border-color 0.2s, box-shadow 0.2s, background 0.3s;\n}
+.input-row input:focus {\n  outline: none;\n  border-color: var(--neon);\n  box-shadow: 0 0 0 2px rgba(0, 231, 255, 0.12) inset, 0 0 20px rgba(0, 231, 255, 0.35);\n}
+
+}
+
